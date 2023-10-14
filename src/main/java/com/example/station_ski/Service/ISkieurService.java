@@ -12,10 +12,5 @@ public interface ISkieurService {
     public List<Skieur> getAllSkieurs();
 
 
-
-
-
-
-
-
+    Skieur assignSkierToPiste(Long numSkieur, Long numPiste);
 }

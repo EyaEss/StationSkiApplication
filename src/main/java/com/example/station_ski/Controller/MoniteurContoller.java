@@ -27,6 +27,10 @@ public class MoniteurContoller {
     public List<Moniteur> getAllMoniteur() {
         return moniteurService.getAllMoniteur();
     }
+    @PostMapping("/add-instructor-to-course/{numCourse}")
+    public Moniteur addInstructorAndAssignToCourse(@RequestBody Moniteur moniteur, @PathVariable Long numCourse) {
+        return moniteurService.addInstructorAndAssignToCourse(moniteur, numCourse);
 
+    }
 
 }

@@ -27,7 +27,7 @@ public class Skieur {
     @JsonIgnore
     @OneToMany(mappedBy = "skieur")
     private List<Inscription> inscriptions;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     Abonnement abonnement;
 
 }

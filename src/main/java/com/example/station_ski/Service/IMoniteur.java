@@ -11,4 +11,6 @@ public interface IMoniteur {
     public Moniteur updateMoniteur( Moniteur moniteur);
     public Moniteur getMoniteur(Long moniteurId);
     public List<Moniteur> getAllMoniteur();
+
+    Moniteur addInstructorAndAssignToCourse(Moniteur moniteur, Long numCourse);
 }
