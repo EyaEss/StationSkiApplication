@@ -1,23 +1,29 @@
 package com.example.station_ski.Service;
 
-import com.example.station_ski.entities.Piste;
-import com.example.station_ski.entities.Skieur;
-import com.example.station_ski.repository.PisteRepository;
-import com.example.station_ski.repository.SkieurRepository;
+import com.example.station_ski.entities.*;
+import com.example.station_ski.repository.*;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Primary
 @Service
+@RequiredArgsConstructor
 public class ISkieurServiceImp implements ISkieurService {
     @Autowired
-    private SkieurRepository skieurRepository;
-    private  PisteRepository pisteRepository;
+    private final SkieurRepository skieurRepository;
+    private final PisteRepository pisteRepository;
+    private final CoursRepository coursRepository ;
+    private final InscriptionRepository inscriptionRepository ;
+    private final AbonnementRepository abonnementRepository ;
 
 
 
@@ -52,6 +58,7 @@ public class ISkieurServiceImp implements ISkieurService {
         return (List)skieurRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Skieur assignSkierToPiste(Long numSkieur, Long numPiste) {
         Piste piste = pisteRepository.findById(numPiste).orElse(null);
@@ -62,7 +69,50 @@ public class ISkieurServiceImp implements ISkieurService {
         //kif njib mil base de donnees
         piste.getSkieurs().add(skieur);
         pisteRepository.save(piste);
+
         return null;
     }
+
+    @Override
+    public Skieur addSkierAndAssignToCourse(Skieur skieur, Long numCourse) {
+        Cours course = coursRepository.findById(numCourse).orElse(null);
+
+        if (course != null) {
+
+            Inscription inscription = skieur.getInscriptions().get(0);
+            Abonnement abonnement = skieur.getAbonnement();
+            skieurRepository.save(skieur);
+
+            inscription.setSkieur(skieur);
+            inscription.setCours(course);
+
+            inscriptionRepository.save(inscription);
+
+           // course.getInscriptions().add(inscription);
+          //  coursRepository.save(course);
+
+          /*  Abonnement abonnement = new Abonnement();
+           // skieur.setAbonnement(abonnement);
+            //abonnementRepository.save(abonnement);
+            skieur.setAbonnement(abonnement);
+            skieurRepository.save(skieur);*/
+        } else {
+            throw new EntityNotFoundException("Course not found with id: " + numCourse);
+        }
+        return skieur;
+    }
+
+    @Override
+    public List<Skieur> retrieveSkiersBySubscriptionType(TypeAbonnement typeAbonnement) {
+        List<Skieur> skieurList =(List<Skieur>) this.skieurRepository.findAll();
+        List<Skieur>skieurList1 = new ArrayList<>();
+        skieurList.forEach(skieur -> {
+            if(skieur.getAbonnement().getTypeAbon().equals(typeAbonnement)){
+                skieurList1.add(skieur);
+            }
+        });
+        return skieurList1;
+    }
+
 
 }

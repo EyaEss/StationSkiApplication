@@ -12,5 +12,6 @@ public interface IInscriptionSevice {
     public List<Inscription> getAllInscription();
 
     Inscription addInscriptionAndAssignToSkier(Inscription inscription, Long id);
+    public void testscheduled(); // la argument le type de retour
 
 }

@@ -5,6 +5,7 @@ import com.example.station_ski.Service.ISkieurService;
 import com.example.station_ski.Service.ISkieurServiceImp;
 import com.example.station_ski.entities.Skieur;
 import com.example.station_ski.entities.Skieur;
+import com.example.station_ski.entities.TypeAbonnement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,7 +48,16 @@ public class SkieurController {
         skieurService.deleteSkieur(id);
     }
     @PostMapping("/assignSkierToPiste/{numSkieur}/{numPiste}")
+
     public Skieur assignSkierToPiste(@PathVariable Long numSkieur,@PathVariable Long numPiste){
         return skieurService.assignSkierToPiste(numSkieur,numPiste);
+    }
+
+    Skieur addSkierAndAssignToCourse(@RequestBody Skieur skieur, @PathVariable Long numCourse){
+        return skieurService.addSkierAndAssignToCourse(skieur,numCourse);
+    }
+    @PostMapping("{TypeAbonnement}")
+    List<Skieur> retrieveSkiersBySubscriptionType(@PathVariable TypeAbonnement typeAbonnement){
+        return skieurService.retrieveSkiersBySubscriptionType(typeAbonnement);
     }
 }

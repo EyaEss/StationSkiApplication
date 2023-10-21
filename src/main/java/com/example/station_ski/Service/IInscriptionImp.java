@@ -5,10 +5,13 @@ import com.example.station_ski.entities.Skieur;
 import com.example.station_ski.repository.InscriptionRepository;
 import com.example.station_ski.repository.SkieurRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
+@Slf4j //to use logs
 @Service
 @RequiredArgsConstructor
 
@@ -50,5 +53,10 @@ public class IInscriptionImp implements IInscriptionSevice {
        Skieur skieur= skieurRepository.findById(id).orElse(null);
        inscription.setSkieur(skieur);
         return inscriptionRepository.save(inscription);
+    }
+    @Scheduled(cron ="10" )
+    @Override
+    public void testscheduled() {
+        log.info("yo this is shit");
     }
 }

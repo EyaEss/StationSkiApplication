@@ -1,6 +1,7 @@
 package com.example.station_ski.Service;
 
 import com.example.station_ski.entities.Skieur;
+import com.example.station_ski.entities.TypeAbonnement;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface ISkieurService {
 
 
     Skieur assignSkierToPiste(Long numSkieur, Long numPiste);
+
+    Skieur addSkierAndAssignToCourse(Skieur skieur, Long numCourse);
+    List<Skieur> retrieveSkiersBySubscriptionType(TypeAbonnement typeAbonnement);
 }

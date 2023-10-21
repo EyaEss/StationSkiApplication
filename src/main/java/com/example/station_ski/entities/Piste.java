@@ -25,7 +25,7 @@ public class Piste {
     @ManyToMany
    // @JoinTable(
           //  name = "skieur_piste",
-        //    joinColumns = @JoinColumn(name = "piste_id"),
+        //    joinColumns = @JoinC olumn(name = "piste_id"),
       //      inverseJoinColumns = @JoinColumn(name = "skieur_id")
    // )
     private Set<Skieur> skieurs;
